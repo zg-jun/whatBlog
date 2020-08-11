@@ -8,7 +8,8 @@
   <div class="nav-content">
     <el-aside width="200px"
               style="background-color: rgb(238, 241, 246)">
-      <el-menu :default-openeds="['1']">
+      <el-menu :default-openeds="['1']"
+               @select="selMenu">
         <el-submenu v-for="(item1,index1) in menuList"
                     :key="index1"
                     :index="`${index1+1}`">
@@ -36,10 +37,32 @@ export default {
             { menuName: '发布文章' },
             { menuName: '文章列表' }
           ]
+        },
+        {
+          menuName: '权限管理',
+          childrenMenu: [
+            { menuName: '管理列表' }
+          ]
         }
       ]
     }
+
   },
+  methods: {
+    selMenu (index) {
+      switch (index) {
+        case '1-1':
+          this.$route.name !== 'admin.addArticle' && this.$router.push({ name: 'admin.addArticle' });
+          break;
+        case '1-2':
+          this.$route.name !== 'admin.actionArticle' && this.$router.push({ name: 'admin.actionArticle' });
+          break;
+        case '2-1':
+          this.$route.name !== 'admin.adminList' && this.$router.push({ name: 'admin.adminList' });
+          break;
+      }
+    }
+  }
 }
 
 </script>

@@ -6,7 +6,7 @@ const urlencodedParser = bodyParser.json();
 const Article = require('../models/article');
 const Classify = require('../models/classify');
 
-// 获取文章列表
+// 获取web端文章列表
 router.get('/getArticle', function (req, res, next) {
   Article.find({ isDel: 0 }, null, { sort: { datetime: -1 } }, function (err, data) {
     if (err) return res.send({
@@ -23,7 +23,7 @@ router.get('/getArticle', function (req, res, next) {
 // 根据id获取文章详情
 router.get('/getArticleDetail', function (req, res, next) {
   let { _id } = req.query;
-  Article.findById({ _id }, function (err, data) {
+  Article.findOne({ _id, isDel: 0 }, function (err, data) {
     if (err) return res.send({
       code: -1,
       msg: '查询详情失败',

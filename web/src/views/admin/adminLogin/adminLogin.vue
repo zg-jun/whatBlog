@@ -97,6 +97,7 @@ export default {
           message: res.data.msg,
           type: 'error'
         });
+        this.$router.push({ name: 'admin.addArticle' });
       })
     }
   },

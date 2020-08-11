@@ -8,6 +8,8 @@ import ArticleDetail from "../views/client/article/detail.vue";
 import AdminMain from "../views/admin/main.vue";
 import AdminLogin from "../views/admin/adminLogin/adminLogin.vue";
 import AddArticle from "../views/admin/article/addArticle.vue";
+import ActionArticle from "../views/admin/article/list.vue";
+import AdminList from "../views/admin/authorization/adminList.vue";
 
 Vue.use(VueRouter);
 
@@ -24,20 +26,20 @@ const routes = [
       {
         path: "/articleList",
         name: "main.articleList",
-        component: ArticleList,
+        component: ArticleList
       },
       {
         path: "/articleDetail/:id",
         name: "main.articleDetail",
-        component: ArticleDetail,
-      },
+        component: ArticleDetail
+      }
     ]
   },
   // 后台管理路由
   {
     path: "/adminLogin",
     name: "admin.login",
-    component: AdminLogin,
+    component: AdminLogin
   },
   {
     path: "/adminMain",
@@ -45,9 +47,19 @@ const routes = [
     component: AdminMain,
     children: [
       {
-        path: "/addArticle",
+        path: "/addArticle/:id",
         name: "admin.addArticle",
-        component: AddArticle,
+        component: AddArticle
+      },
+      {
+        path: "/actionArticle",
+        name: "admin.actionArticle",
+        component: ActionArticle
+      },
+      {
+        path: "/adminList",
+        name: "admin.adminList",
+        component: AdminList
       }
     ]
   }

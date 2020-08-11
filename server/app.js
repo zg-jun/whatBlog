@@ -1,13 +1,13 @@
 const express = require('express');
 const path = require('path');
-
 const app = express();
 
 // 开放静态资源
-app.use('/static', express.static(path.join(__dirname, '/uploads')));
+app.use('/images', express.static(path.join(__dirname, '/uploads')));
 
 // 连接数据库
 require('./plugins/db')();
+
 // 使用路由
 app.use('/api', require('./routes/index'));
 app.use('/backApi', require('./routes/admin'));

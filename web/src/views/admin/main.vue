@@ -23,6 +23,7 @@
     text-align: center;
     font-size: 14px;
     padding: 0;
+    margin-top: 20px;
     p {
       margin: 0;
       margin-bottom: 5px;
