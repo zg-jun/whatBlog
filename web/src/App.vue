@@ -11,6 +11,19 @@ html {
   padding: 0;
 }
 
+// 全部链接
+a {
+  text-decoration: none;
+  color: #606975;
+  cursor: pointer;
+  border-bottom: 1px solid #606975;
+  transition: all 0.2s linear;
+  &:hover {
+    background: #00baba;
+    color: #fff;
+  }
+}
+
 #app {
   // font-family: Avenir, Helvetica, Arial, sans-serif;
   // -webkit-font-smoothing: antialiased;

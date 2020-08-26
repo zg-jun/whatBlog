@@ -35,6 +35,20 @@ router.get('/getArticleDetail', function (req, res, next) {
     });
   })
 })
+// 添加浏览器量
+router.put('/editViews', urlencodedParser, function (req, res, next) {
+  let { _id } = req.body;
+  Article.findByIdAndUpdate(_id, { $inc: { views: 1 } }, function (err) {
+    if (err) return res.send({
+      code: -1,
+      msg: '刷新浏览量失败',
+    });
+    res.send({
+      code: 0,
+      msg: '刷新浏览量成功'
+    });
+  })
+})
 // 获取分类列表
 router.get('/getClassify', function (req, res, next) {
   Classify.find({}, function (err, data) {

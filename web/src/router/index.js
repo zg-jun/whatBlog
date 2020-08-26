@@ -47,7 +47,7 @@ const routes = [
     component: AdminMain,
     children: [
       {
-        path: "/addArticle/:id",
+        path: "/addArticle/:id?",
         name: "admin.addArticle",
         component: AddArticle
       },

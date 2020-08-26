@@ -16,7 +16,7 @@
   .article-content {
     /deep/ blockquote {
       display: block;
-      border-left: 8px solid #d0e5f2;
+      border-left: 8px solid #00baba;
       padding: 5px 10px;
       margin: 10px 0;
       line-height: 1.4;
@@ -39,9 +39,10 @@
       }
     }
     /deep/ img {
+      border-radius: 15px;
       transition: all 0.3s linear;
       &:hover {
-        transform: scale(1.03);
+        transform: scale(1.02);
       }
     }
     /deep/ pre {
@@ -58,6 +59,10 @@
     /deep/ iframe {
       width: 100%;
       height: 400px;
+    }
+    /deep/ p {
+      word-wrap: break-word;
+      word-break: normal;
     }
   }
 }
@@ -78,8 +83,9 @@
          class="detail-content">
       <h3 class="article-title">{{detailData.title}}</h3>
       <div class="article-from">
-        <span>发布于 {{detailData.datetime | formatTime}}</span>
+        <span>发表于 {{detailData.datetime | formatTime}}</span>
         <span><i class="el-icon-edit"></i> {{detailData.author}}</span>
+        <span><i class="el-icon-view"></i> {{detailData.views}}人浏览</span>
       </div>
       <div class="article-content"
            v-html="detailData.content"></div>
@@ -88,7 +94,7 @@
 </template>
 
 <script>
-import { getArticleDetail } from '@service/client/index/index';
+import { getArticleDetail, editViews } from '@service/client/index/index';
 
 export default {
   props: ['id'],
@@ -109,7 +115,9 @@ export default {
   methods: {
     getDetail () {
       let _id = this.$route.params.id;
-      getArticleDetail({ _id }).then(res => {
+      editViews({ _id }).then(res => {
+        if (res.data.code === 0) return getArticleDetail({ _id });
+      }).then(res => {
         this.detailData = res.data.data;
       })
     }

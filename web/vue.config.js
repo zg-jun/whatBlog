@@ -49,7 +49,7 @@ module.exports = {
   // chainWebpack链式调用
   chainWebpack: config => {
     config.plugin("html").tap(args => {
-      args[0].title = "WhatBlog"; // 网站标题
+      args[0].title = "Whatblog | 未来可期"; // 网站标题
       return args;
     });
     // 查看打包文件体积大小 npm run analyzer
@@ -90,7 +90,7 @@ module.exports = {
   },
   devServer: {
     open: true, //启动服务自动打开浏览器
-    host: "localhost",
+    // host: "localhost",
     port: "666",
     // 配置反向代理
     proxy: {

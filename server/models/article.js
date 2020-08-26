@@ -13,6 +13,10 @@ const articleSchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   },
+  views: {
+    type: Number,
+    default: 0
+  },
   isDel: {
     type: Number,
     default: 0

@@ -1,19 +1,20 @@
 <style lang='scss' scoped>
 .index-content {
   .article-list {
-    padding: 20px;
+    padding: 20px 0;
     .article-title {
       margin: 0 auto;
       padding: 0;
       display: inline-block;
-      color: #606975;
-      border-bottom: 1px solid #606975;
+      color: #00baba;
+      border-bottom: 1px solid #00baba;
       cursor: pointer;
-      transition: all 0.1s linear;
+      font-size: 18px;
+      letter-spacing: 1px;
+      transition: all 0.2s linear;
       &:hover {
         color: #fff;
-        background: #606975;
-        transform: translate(-3px, 3px);
+        background: #00baba;
       }
     }
     .article-abstract {
@@ -21,11 +22,12 @@
       padding: 0;
       display: flex;
       flex-wrap: wrap;
+      letter-spacing: 1px;
     }
     .article-info {
       font-size: 12px;
       span + span {
-        margin-left: 10px;
+        margin-left: 20px;
       }
     }
   }
@@ -52,8 +54,9 @@
         <p class="article-abstract">{{item.abstract | formatText}}</p>
         <div class="article-info">
           <!-- <span class="article-author">{{item.author}}</span> -->
-          <span class="article-time">发布于 {{item.datetime | formatTime}}</span>
+          <span><i class="el-icon-date"></i> 发表于 {{item.datetime | formatTime}}</span>
           <span><i class="el-icon-edit"></i> {{item.author}}</span>
+          <span><i class="el-icon-view"></i> {{item.views}}人浏览</span>
         </div>
       </div>
     </transition-group>
