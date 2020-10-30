@@ -9,6 +9,17 @@ body,
 html {
   margin: 0;
   padding: 0;
+  &::-webkit-scrollbar {
+    width: 5px;
+    height: 1px;
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    /*滚动条里面小方块*/
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+    background: rgba(0, 186, 186, 0.5);
+  }
 }
 
 // 全部链接
@@ -19,7 +30,7 @@ a {
   border-bottom: 1px solid #606975;
   transition: all 0.2s linear;
   &:hover {
-    background: #00baba;
+    background: rgba(0, 186, 186, 0.5);
     color: #fff;
   }
 }
@@ -37,7 +48,6 @@ a {
 
 #nav {
   padding: 30px;
-
   a {
     font-weight: bold;
     color: #2c3e50;

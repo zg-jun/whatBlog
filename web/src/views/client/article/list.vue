@@ -1,20 +1,23 @@
 <style lang='scss' scoped>
 .index-content {
   .article-list {
-    padding: 20px 0;
+    & + div {
+      margin-top: 40px;
+    }
     .article-title {
       margin: 0 auto;
       padding: 0;
       display: inline-block;
-      color: #00baba;
-      border-bottom: 1px solid #00baba;
+      color: #606975;
+      border-bottom: 2px solid #606975;
       cursor: pointer;
       font-size: 18px;
       letter-spacing: 1px;
       transition: all 0.2s linear;
       &:hover {
         color: #fff;
-        background: #00baba;
+        border-bottom-color: transparent;
+        background: rgba(0, 186, 186, 0.5);
       }
     }
     .article-abstract {
@@ -45,7 +48,8 @@
 
 <template>
   <div class="index-content">
-    <transition-group name="list">
+    <transition-group v-if="articleList.length>0"
+                      name="list">
       <div class="article-list"
            v-for="(item,index) in articleList"
            :key="index">
@@ -60,17 +64,20 @@
         </div>
       </div>
     </transition-group>
+    <Loading v-else></Loading>
   </div>
 </template>
 
 <script>
 import { getArticle } from '@service/client/index/index';
+import Loading from '@components/loading/loading';
 export default {
   data () {
     return {
       articleList: []
     }
   },
+  components: { Loading },
   filters: {
     formatTime: function (value) {
       if (!value) return '';
@@ -84,6 +91,7 @@ export default {
   },
   created () {
     this.getList();
+    document.title = 'Whatblog';
   },
   methods: {
     getList () {

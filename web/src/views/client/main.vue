@@ -1,12 +1,15 @@
 <style lang="scss" scope>
 .main-content {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
   &::before {
     content: "";
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    opacity: 0.1;
+    opacity: 0.05;
     position: fixed;
     background: url("https://whatblog.cn/images/1597214364703.jpg") no-repeat
       center/cover;
@@ -14,10 +17,8 @@
   }
   .header {
     width: 1000px;
-    margin: 0 auto 20px;
-    height: 80px;
-    display: flex;
-    align-items: center;
+    margin: 0 auto;
+    padding: 20px 0;
     img {
       cursor: pointer;
     }
@@ -29,11 +30,12 @@
     }
   }
   .content {
-    margin: 0 auto;
+    flex: 1;
+    margin: 60px auto;
     width: 1000px;
   }
   .footer {
-    padding-top: 30px;
+    padding-bottom: 10px;
     text-align: center;
     font-size: 14px;
     p {
@@ -47,6 +49,37 @@
           font-size: 12px;
         }
       }
+      &.href-info {
+        a {
+          margin: 0 5px;
+        }
+      }
+    }
+  }
+  .to-top {
+    width: 50px;
+    height: 50px;
+    position: fixed;
+    bottom: 50px;
+    right: -50px;
+    border-radius: 50%;
+    background: rgba(0, 186, 186, 0.5);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    color: #fff;
+    font-weight: bold;
+    transition: all 0.5s linear;
+    &.show {
+      transform: translateX(-100px) rotate(-360deg);
+    }
+    span {
+      font-size: 12px;
+    }
+    .el-icon-arrow-up {
+      font-size: 18px;
     }
   }
 }
@@ -71,10 +104,24 @@
     </header>
     <router-view class="content"></router-view>
     <footer class="footer">
-      <p class="say-hello">不必仰望别人,自己亦是风景</p>
+      <p class="say-hello">不必仰望别人,自己亦是风景🤞</p>
       <p>博客已艰难运行{{runTm}}</p>
-      <p>© {{nowYear}} WHATBLOG.CN <a href="http://www.beian.miit.gov.cn/">鄂ICP备18013666号-2</a></p>
+      <p class="href-info">© {{nowYear}} WHATBLOG.CN
+        <a href="http://www.beian.miit.gov.cn/">鄂ICP备18013666号-2</a>
+        <a href="javascript:;"
+           @click="$router.push({name:'main.friendshipChainList'})">小伙伴</a>
+        <a href="https://github.com/zg-jun"
+           target="_blank">GitHub</a>
+        <a href="https://blog.csdn.net/qq_38944959"
+           target="_blank">CSDN</a>
+      </p>
     </footer>
+    <!-- 返回顶部 -->
+    <div :class="['to-top',{'show':isShowTop}]"
+         @click="toTop">
+      <i class="el-icon-arrow-up"></i>
+      <span>TOP</span>
+    </div>
   </div>
 </template>
 
@@ -94,7 +141,20 @@ export default {
   data () {
     return {
       runTm: null,
+      isShowTop: false
     }
+  },
+  methods: {
+    toTop () {
+      // 回到顶部
+      document.documentElement.scrollTop = document.body.scrollTop = 0;
+    }
+  },
+  mounted () {
+    document.addEventListener('scroll', () => {
+      let topPx = document.documentElement.scrollTop || document.body.scrollTop;
+      this.isShowTop = topPx > 100;
+    })
   },
   created () {
     setInterval(() => { this.runTm = runTime("2020-08-08 00:00:00") }, 1000);

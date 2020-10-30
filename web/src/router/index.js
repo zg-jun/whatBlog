@@ -4,6 +4,7 @@ import VueRouter from "vue-router";
 import Main from "../views/client/main.vue";
 import ArticleList from "../views/client/article/list.vue";
 import ArticleDetail from "../views/client/article/detail.vue";
+import friendshipChainList from "../views/client/friendshipChain/list.vue";
 // 后台管理
 import AdminMain from "../views/admin/main.vue";
 import AdminLogin from "../views/admin/adminLogin/adminLogin.vue";
@@ -32,6 +33,11 @@ const routes = [
         path: "/articleDetail/:id",
         name: "main.articleDetail",
         component: ArticleDetail
+      },
+      {
+        path: "/friendshipChainList",
+        name: "main.friendshipChainList",
+        component: friendshipChainList
       }
     ]
   },

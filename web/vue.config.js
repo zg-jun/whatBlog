@@ -11,16 +11,15 @@ module.exports = {
   outputDir: "dist", //打包文件输出的目录
   productionSourceMap: false, //是否生成map文件
   // 以下是pwa配置
-  pwa: {
-    // fsbox icon配置
-    iconPaths: {
-      favicon32: "favicon.ico",
-      favicon16: "favicon.ico",
-      appleTouchIcon: "favicon.ico",
-      maskIcon: "favicon.ico",
-      msTileImage: "favicon.ico"
-    }
-  },
+  // pwa: {
+  //   iconPaths: {
+  //     favicon32: "favicon.ico",
+  //     favicon16: "favicon.ico",
+  //     appleTouchIcon: "favicon.ico",
+  //     maskIcon: "favicon.ico",
+  //     msTileImage: "favicon.ico"
+  //   }
+  // },
   // webpack相关配置
   configureWebpack: config => {
     if (process.env.NODE_ENV === "production") {
@@ -49,7 +48,7 @@ module.exports = {
   // chainWebpack链式调用
   chainWebpack: config => {
     config.plugin("html").tap(args => {
-      args[0].title = "Whatblog | 未来可期"; // 网站标题
+      args[0].title = "Whatblog"; // 网站标题
       return args;
     });
     // 查看打包文件体积大小 npm run analyzer

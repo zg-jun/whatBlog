@@ -5,6 +5,7 @@
     padding: 0;
     font-weight: bold;
     font-size: 18px;
+    color: #606975;
   }
   .article-from {
     font-size: 12px;
@@ -16,7 +17,7 @@
   .article-content {
     /deep/ blockquote {
       display: block;
-      border-left: 8px solid #00baba;
+      border-left: 8px solid rgba(0, 186, 186, 0.5);
       padding: 5px 10px;
       margin: 10px 0;
       line-height: 1.4;
@@ -68,7 +69,7 @@
 }
 .list-enter-active,
 .list-leave-active {
-  transition: all 1s;
+  transition: all 1s linear;
 }
 .list-enter,
 .list-leave-to {
@@ -78,23 +79,27 @@
 </style>
 
 <template>
-  <transition name="list">
-    <div v-if="detailData"
-         class="detail-content">
-      <h3 class="article-title">{{detailData.title}}</h3>
-      <div class="article-from">
-        <span>发表于 {{detailData.datetime | formatTime}}</span>
-        <span><i class="el-icon-edit"></i> {{detailData.author}}</span>
-        <span><i class="el-icon-view"></i> {{detailData.views}}人浏览</span>
+  <div class="detail-content">
+    <transition name="list"
+                v-if="detailData">
+      <div class="detail-content">
+        <h3 class="article-title">{{detailData.title}}</h3>
+        <div class="article-from">
+          <span>发表于 {{detailData.datetime | formatTime}}</span>
+          <span><i class="el-icon-edit"></i> {{detailData.author}}</span>
+          <span><i class="el-icon-view"></i> {{detailData.views}}人浏览</span>
+        </div>
+        <div class="article-content"
+             v-html="detailData.content"></div>
       </div>
-      <div class="article-content"
-           v-html="detailData.content"></div>
-    </div>
-  </transition>
+    </transition>
+    <Loading v-else></Loading>
+  </div>
 </template>
 
 <script>
 import { getArticleDetail, editViews } from '@service/client/index/index';
+import Loading from '@components/loading/loading';
 
 export default {
   props: ['id'],
@@ -103,6 +108,7 @@ export default {
       detailData: null
     }
   },
+  components: { Loading },
   filters: {
     formatTime: function (value) {
       if (!value) return '';
@@ -119,6 +125,7 @@ export default {
         if (res.data.code === 0) return getArticleDetail({ _id });
       }).then(res => {
         this.detailData = res.data.data;
+        document.title = `Whatblog | ${this.detailData.title}`;
       })
     }
   },
