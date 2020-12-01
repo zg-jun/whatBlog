@@ -9,7 +9,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    opacity: 0.05;
+    opacity: 0.1;
     position: fixed;
     background: url("https://whatblog.cn/images/1597214364703.jpg") no-repeat
       center/cover;
@@ -72,7 +72,13 @@
     color: #fff;
     font-weight: bold;
     transition: all 0.5s linear;
+    // 移动端点击带轮廓
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select:none;
     &.show {
+      box-shadow: 0 3px 2px 1px rgba(0,0,0,0.5);
       transform: translateX(-100px) rotate(-360deg);
     }
     span {

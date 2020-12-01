@@ -1,9 +1,7 @@
 const mongoose = require('mongoose');
 
-const adminUserSchema = new mongoose.Schema({
-  username: String,
-  password: String,
-  isDisable: {
+const viewSchema = new mongoose.Schema({
+  views: {
     type: Number,
     default: 0
   },
@@ -14,4 +12,4 @@ const adminUserSchema = new mongoose.Schema({
 })
 
 // 导出文章模型
-module.exports = mongoose.model('wb_admin_users', adminUserSchema);
+module.exports = mongoose.model('wb_view', viewSchema);

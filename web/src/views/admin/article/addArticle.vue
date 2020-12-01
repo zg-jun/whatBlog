@@ -2,21 +2,25 @@
 </style>
 
 <template>
-  <div class="content">
+  <div class="add_article-content">
     <el-form ref="form"
              :model="formData"
+             :rules="rules"
              label-position="top"
              label-width="80px"
              size="mini">
-      <el-form-item label="标题">
-        <el-input v-model="formData.title"></el-input>
+      <el-form-item label="标题" 
+                    prop="title">
+        <el-input v-model="formData.title" placeholder="请填写文章标题"></el-input>
       </el-form-item>
-      <el-form-item label="摘要">
+      <el-form-item label="摘要"
+                    prop="abstract">
         <el-input type="textarea"
-                  v-model="formData.abstract"></el-input>
+                  v-model="formData.abstract" placeholder="请填写文章摘要"></el-input>
       </el-form-item>
-      <el-form-item label="作者">
-        <el-input v-model="formData.author"></el-input>
+      <el-form-item label="作者"
+                    prop="author">
+        <el-input v-model="formData.author" placeholder="请填写文章作者"></el-input>
       </el-form-item>
       <el-form-item label="是否公开">
         <el-radio-group v-model="formData.isDel"
@@ -32,7 +36,7 @@
       </el-form-item>
       <el-form-item size="large">
         <el-button type="primary"
-                   @click="submitArticle">提交</el-button>
+                   @click="submitArticle">发布</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -53,7 +57,18 @@ export default {
         author: '',
         content: '',
         isDel: 0
-      }
+      },
+      rules: {
+          title: [
+            { required: true, message: '请填写文章标题', trigger: 'change' }
+          ],
+          abstract: [
+            { required: true, message: '请填写文章摘要', trigger: 'change' }
+          ],
+          author: [
+            { required: true, message: '请填写文章作者', trigger: 'change' }
+          ]
+       }
     }
   },
   mounted () {
@@ -76,27 +91,39 @@ export default {
       })
     },
     submitArticle () {
-      this.$route.params.id && editArticle({ _id: this.$route.params.id, data: this.formData }).then(res => {
-        this.$message({
-          type: res.data.code === 0 ? 'success' : 'error',
-          message: res.data.msg
-        });
-      })
-      !this.$route.params.id && addArticle(this.formData).then(res => {
-        this.$message({
-          type: res.data.code === 0 ? 'success' : 'error',
-          message: res.data.msg
-        });
-      })
+       this.$refs['form'].validate((valid) => {
+         if (valid) {
+           this.$route.params.id && editArticle({ _id: this.$route.params.id, data: this.formData }).then(res => {
+            this.$message({
+              type: res.data.code === 0 ? 'success' : 'error',
+              message: res.data.msg
+            });
+            this.$refs['form'].resetFields();
+            this.$router.push({name:'admin.actionArticle'});
+          })
+          !this.$route.params.id && addArticle(this.formData).then(res => {
+            this.$message({
+              type: res.data.code === 0 ? 'success' : 'error',
+              message: res.data.msg
+            });
+            this.$refs['form'].resetFields();
+            this.$router.push({name:'admin.actionArticle'});
+          })
+         }
+       });
     },
     setEditor () {
       this.editor = new E(this.$refs.editBox);
       this.editor.customConfig.uploadImgShowBase64 = false // base 64 存储图片
-      this.editor.customConfig.uploadImgServer = '/backApi/uploadFile'// 配置服务器端地址
+      this.editor.customConfig.uploadImgServer = '/backapi/uploadFile'// 配置服务器端地址
       this.editor.customConfig.uploadFileName = 'file' // 后端接受上传文件的参数名
       this.editor.customConfig.uploadImgMaxSize = 2 * 1024 * 1024 // 将图片大小限制为 2M
       this.editor.customConfig.uploadImgMaxLength = 1 // 限制一次上传数量
       this.editor.customConfig.uploadImgTimeout = 3 * 60 * 1000 // 设置超时时间
+      // 配置请求头
+      this.editor.customConfig.uploadImgHeaders = {
+          Authorization : 'Bearer ' + sessionStorage.token
+      }
       // 配置菜单
       this.editor.customConfig.menus = [
         'head', // 标题

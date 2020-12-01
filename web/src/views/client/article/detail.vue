@@ -111,8 +111,15 @@ export default {
   components: { Loading },
   filters: {
     formatTime: function (value) {
-      if (!value) return '';
-      return value.replace('T', ' ').slice(0, -5);
+      if (!value) return '--';
+      let dateObj = new Date(value);
+      let y = dateObj.getFullYear();
+      let m = dateObj.getMonth()+1;
+      let d = dateObj.getDate();
+      let h = dateObj.getHours();
+      let mi = dateObj.getMinutes();
+      let s = dateObj.getSeconds();
+      return `${y}-${String(m).padStart(2,0)}-${String(d).padStart(2,0)} ${String(h).padStart(2,0)}:${String(mi).padStart(2,0)}:${String(s).padStart(2,0)}`;
     },
   },
   created () {

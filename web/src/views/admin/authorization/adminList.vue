@@ -6,7 +6,7 @@
 </style>
 
 <template>
-  <div class="content">
+  <div class="admin-list-content">
     <el-table :data="tableData"
               border
               style="width: 100%">
@@ -25,6 +25,9 @@
       </el-table-column>
       <el-table-column prop="datetime"
                        label="注册时间">
+        <template slot-scope="scope">
+              <span>{{scope.row.datetime | formatTime}}</span>
+        </template>
       </el-table-column>
       <el-table-column label="操作"
                        width="240">
@@ -45,6 +48,19 @@
 import { getAdminUser } from '@service/admin/authorization/authorization';
 
 export default {
+  filters:{
+    formatTime: function (value) {
+      if (!value) return '--';
+      let dateObj = new Date(value);
+      let y = dateObj.getFullYear();
+      let m = dateObj.getMonth()+1;
+      let d = dateObj.getDate();
+      let h = dateObj.getHours();
+      let mi = dateObj.getMinutes();
+      let s = dateObj.getSeconds();
+      return `${y}-${String(m).padStart(2,0)}-${String(d).padStart(2,0)} ${String(h).padStart(2,0)}:${String(mi).padStart(2,0)}:${String(s).padStart(2,0)}`;
+    },
+  },
   data () {
     return {
       tableData: []

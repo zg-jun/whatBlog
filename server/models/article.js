@@ -10,8 +10,8 @@ const articleSchema = new mongoose.Schema({
     default: 'Null'
   },
   datetime: {
-    type: Date,
-    default: Date.now
+    type: Number,
+    default:() => Date.now()
   },
   views: {
     type: Number,

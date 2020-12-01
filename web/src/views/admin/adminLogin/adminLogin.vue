@@ -97,7 +97,9 @@ export default {
           message: res.data.msg,
           type: 'error'
         });
-        this.$router.push({ name: 'admin.addArticle' });
+        sessionStorage.token = res.data.token;
+        sessionStorage.userInfo =JSON.stringify({username:this.formData.username});
+        this.$router.push({ name: 'admin.actionArticle' });
       })
     }
   },

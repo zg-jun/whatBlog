@@ -1,32 +1,38 @@
 <style lang="scss" scope>
 .content {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
   .header {
-    padding: 0 20px;
+    padding:0 20px;
     line-height: 50px;
     // border-bottom: 1px solid #ccc;
+    display: flex;
+    justify-content: space-between;
     span {
-      font-size: 18px;
-      font-weight: bold;
-      color: #606975;
-      cursor: pointer;
+      &.title{
+        font-size: 18px;
+        font-weight: bold;
+        color: #606975;
+        cursor: pointer;
+      }
     }
   }
   .main-box {
     display: flex;
+    flex: 1;
+    .main-view{
+      flex: 1;
+      padding: 0 20px;
+    }
   }
-
   .footer {
-    // width: 100%;
-    // position: absolute;
-    // bottom: 0;
-    // left: 0;
     text-align: center;
     font-size: 14px;
-    padding: 0;
-    margin-top: 20px;
+    padding-bottom: 10px;
+    // margin-top: 20px;
     p {
       margin: 0;
-      margin-bottom: 5px;
       &.say-hello {
         font-size: 12px;
       }
@@ -48,15 +54,22 @@
 <template>
   <div class="content">
     <header class="header">
-      <span @click="$router.push({name:'main.index'})">WHATBLOG</span>
+      <span class="title">WHATBLOG</span>
+      <el-dropdown @command="handleDropdown">
+        <span class="el-dropdown-link">
+          {{userInfo.username}}<i class="el-icon-arrow-down el-icon--right"></i>
+        </span>
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item command="exit">退出登录</el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
     </header>
     <div class="main-box">
       <navbar></navbar>
-      <router-view></router-view>
+      <router-view class="main-view"></router-view>
     </div>
     <footer class="footer">
-      <p class="say-hello">不要什么都没有，却想要所有❤</p>
-      <p>© {{nowYear}} WhatBlog.cn <a href="http://www.beian.miit.gov.cn/">鄂ICP备18013666号-2</a></p>
+      <p>© {{nowYear}} WHATBLOG.CN <a href="http://www.beian.miit.gov.cn/">鄂ICP备18013666号-2</a></p>
     </footer>
   </div>
 </template>
@@ -73,6 +86,17 @@ export default {
   computed: {
     nowYear () {
       return new Date().getFullYear()
+    }
+  },
+  created() {
+    this.userInfo = JSON.parse(sessionStorage.userInfo);
+  },
+  methods: {
+    handleDropdown(name){
+      if(name === 'exit'){
+        sessionStorage.clear();
+        this.$router.push({ name: 'admin.login' });
+      }
     }
   },
   data () {
