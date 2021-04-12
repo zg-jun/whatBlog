@@ -10,6 +10,7 @@ const authMiddleware = require('../middleware/auth');
 // 导入模型
 const AdminUser = require('../models/adminUser');
 const Article = require('../models/article');
+const Friends = require('../models/friends');
 
 // 不存在则创建文件
 const createFolder = function (folder) {
@@ -168,5 +169,34 @@ router.post('/uploadFile', authMiddleware(), upload.single('file'), function (re
   });
 })
 
+// 添加友链
+router.post('/addFriends', urlencodedParser, function (req, res, next) {
+  let body = req.body;
+  Friends.insertMany(body, function (err) {
+    if (err) return res.send({
+      code: -1,
+      msg: '添加友链失败',
+    })
+    res.send({
+      code: 0,
+      msg: '添加友链成功',
+    });
+  })
+})
+
+// 友链列表
+router.get('/getFriends', function (req, res, next) {
+  Friends.find({}, null, { sort: { datetime: -1 } }, function (err, data) {
+    if (err) return res.send({
+      code: -1,
+      msg: '获取友链失败',
+    });
+    res.send({
+      code: 0,
+      msg: '获取友链成功',
+      data
+    });
+  })
+})
 
 module.exports = router;

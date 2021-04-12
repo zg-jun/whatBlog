@@ -3,12 +3,10 @@ const mongoose = require('mongoose');
 const articleSchema = new mongoose.Schema({
   title: String,
   abstract: String,
+  bgUrl:String,
   content: String,
   classifyId: Array,
-  author: {
-    type: String,
-    default: 'Null'
-  },
+  author: String,
   datetime: {
     type: Number,
     default:() => Date.now()

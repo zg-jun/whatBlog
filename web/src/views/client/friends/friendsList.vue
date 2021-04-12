@@ -46,6 +46,7 @@
         <img :src="item.imgUrl"
              alt="暂无头像">
         <a :href="item.url"
+           :title="item.introduce"
            target="_blank">{{item.introduce}}</a>
       </div>
     </div>
@@ -62,6 +63,11 @@ export default {
           imgUrl: 'http://ycf.mobi/static/img/top1.22374f18.jpg',
           url: 'http://ycf.mobi/',
           introduce: '市民松松的博客'
+        },
+        {
+          imgUrl: 'https://q1.qlogo.cn/g?b=qq&nk=1196192447&s=640',
+          url: 'https://www.hmister.cn/',
+          introduce: 'Hmister - IT小白-Good Luck To You!'
         }
       ]
     }

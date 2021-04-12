@@ -1,4 +1,4 @@
-import axios from '@assets/lib/https';
+import axios from '@common/lib/https';
 
 export const _GET = (url, params) => {
   return new Promise((resolve, reject) => {
@@ -39,3 +39,5 @@ export const _DELETE = (url, params) => {
     })
   })
 }
+
+export const Http = 'https://whatblog.cn';

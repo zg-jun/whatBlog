@@ -1,50 +1,52 @@
 // 前台
-import Main from "../views/client/main.vue";
-import ArticleList from "../views/client/article/list.vue";
-import ArticleDetail from "../views/client/article/detail.vue";
-import friendshipChainList from "../views/client/friendshipChain/list.vue";
+import ClintMain from "../views/client/main.vue";
+import ArticleList from "../views/client/article/articleList.vue";
+import ArticleDetail from "../views/client/article/articleDetail.vue";
+import FriendsList from "../views/client/friends/friendsList.vue";
 // 后台管理
 import AdminMain from "../views/admin/main.vue";
-import AdminLogin from "../views/admin/adminLogin/adminLogin.vue";
+import AdminLogin from "../views/admin/login/login.vue";
 import AddArticle from "../views/admin/article/addArticle.vue";
-import ActionArticle from "../views/admin/article/list.vue";
-import AdminList from "../views/admin/authorization/adminList.vue";
+import ArticlesManage from "../views/admin/article/articlesManage.vue";
+import AuthAdmin from "../views/admin/auth/authAdmin.vue";
+import FriendsManage from "../views/admin/site/friendsManage.vue";
 
 const routes = [
   {
     path: "/",
-    redirect: { name: 'main.articleList' }
+    redirect: { name: 'client.articleList' }
   },
+  // 前台路由
   {
     path: "/",
     name: "main",
-    component: Main,
+    component: ClintMain,
     children: [
       {
         path: "/",
-        name: "main.articleList",
+        name: "client.articleList",
         component: ArticleList
       },
       {
         path: "/articleDetail/:id",
-        name: "main.articleDetail",
+        name: "client.articleDetail",
         component: ArticleDetail
       },
       {
-        path: "/friendshipChainList",
-        name: "main.friendshipChainList",
-        component: friendshipChainList
+        path: "/friendsList",
+        name: "client.friendsList",
+        component: FriendsList
       }
     ]
   },
-  // 后台管理路由
+  // 后台路由
   {
     path: "/adminLogin",
     name: "admin.login",
     component: AdminLogin
   },
   {
-    path: "/adminMain",
+    path: "/main",
     name: "admin.main",
     component: AdminMain,
     children: [
@@ -54,14 +56,19 @@ const routes = [
         component: AddArticle
       },
       {
-        path: "/actionArticle",
-        name: "admin.actionArticle",
-        component: ActionArticle
+        path: "/articlesManage",
+        name: "admin.articlesManage",
+        component: ArticlesManage
       },
       {
-        path: "/adminList",
-        name: "admin.adminList",
-        component: AdminList
+        path: "/authAdmin",
+        name: "admin.authAdmin",
+        component: AuthAdmin
+      },
+      {
+        path: "/friendsManage",
+        name: "admin.friendsManage",
+        component: FriendsManage
       }
     ]
   }

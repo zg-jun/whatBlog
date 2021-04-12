@@ -1,8 +1,8 @@
 <style lang="scss" scope>
-.content {
+.admin-content {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  min-height: 100vh;
   .header {
     padding:0 20px;
     line-height: 50px;
@@ -29,7 +29,7 @@
   .footer {
     text-align: center;
     font-size: 14px;
-    padding-bottom: 10px;
+    padding:20px 0 10px;
     // margin-top: 20px;
     p {
       margin: 0;
@@ -52,7 +52,7 @@
 </style>
 
 <template>
-  <div class="content">
+  <div class="admin-content">
     <header class="header">
       <span class="title">WHATBLOG</span>
       <el-dropdown @command="handleDropdown">

@@ -61,7 +61,8 @@ module.exports = {
       .set("@assets", path.resolve(__dirname, "./src/assets"))
       .set("@components", path.resolve(__dirname, "./src/components"))
       .set("@views", path.resolve(__dirname, "./src/views"))
-      .set("@service", path.resolve(__dirname, "./src/service"));
+      .set("@service", path.resolve(__dirname, "./src/service"))
+      .set("@common", path.resolve(__dirname, "./src/common"));
     // 压缩图片（需安装image-webpack-loader）
     // config.module
     //   .rule("images")
@@ -107,6 +108,14 @@ module.exports = {
         ws: true,
         pathRewrite: {
           "^/backapi": ""
+        }
+      },
+      "/mapi": {
+        target: "https://whatblog.cn/mapi/",
+        changeOrigin: true,
+        ws: true,
+        pathRewrite: {
+          "^/mapi": ""
         }
       }
     }

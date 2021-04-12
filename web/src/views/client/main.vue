@@ -2,7 +2,9 @@
 .main-content {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  min-height: 100vh;
+  // background: #000;
+  position: relative;
   &::before {
     content: "";
     top: 0;
@@ -11,14 +13,14 @@
     bottom: 0;
     opacity: 0.1;
     position: fixed;
-    background: url("https://whatblog.cn/images/1597214364703.jpg") no-repeat
-      center/cover;
+    // background: url("https://diygod.me/images/ac0.webp") no-repeat
+    //   center/cover;
     z-index: -1;
   }
   .header {
-    width: 1000px;
+    width: 1150px;
     margin: 0 auto;
-    padding: 20px 0;
+    padding-top:20px;
     img {
       cursor: pointer;
     }
@@ -32,8 +34,17 @@
   .content {
     flex: 1;
     margin: 60px auto;
-    width: 1000px;
+    width: 1150px;
+    // background: yellow;
+    display: flex;
   }
+  .content-l {
+    flex: 2;
+  }
+   .content-r {
+    flex: 1;
+    margin-left: 50px;
+    }
   .footer {
     padding-bottom: 10px;
     text-align: center;
@@ -45,9 +56,6 @@
         margin-bottom: 5px;
         color: #606975;
         letter-spacing: 2px;
-        &.say-hello {
-          font-size: 12px;
-        }
       }
       &.href-info {
         a {
@@ -78,7 +86,7 @@
     -webkit-user-select: none;
     user-select:none;
     &.show {
-      box-shadow: 0 3px 2px 1px rgba(0,0,0,0.5);
+      box-shadow: 0 0px 5px 0px #ccc;
       transform: translateX(-100px) rotate(-360deg);
     }
     span {
@@ -87,6 +95,32 @@
     .el-icon-arrow-up {
       font-size: 18px;
     }
+  }
+  .lyric-txt{
+    width: 100%;
+    position: fixed;
+    bottom: 15px;
+    left: 0;
+    text-align: center;
+    line-height: 30px;
+    color: #fff;
+    font-weight: bold;
+    text-shadow: 0px 0px 3px #00baba,
+                 0px 0px 3px #00baba,
+                 0px 0px 3px #00baba,
+                 0px 0px 3px #00baba,
+                 0px 0px 3px #00baba,
+                 0px 0px 3px #00baba,
+                 0px 0px 3px #00baba,
+                 0px 0px 3px #00baba,
+                 0px 0px 3px #00baba,
+                 0px 0px 3px #00baba,
+                 0px 0px 3px #00baba,
+                 0px 0px 3px #00baba,
+                 0px 0px 3px #00baba,
+                 0px 0px 3px #00baba;
+    letter-spacing: .5em;
+    pointer-events: none;
   }
 }
 @media (max-width: 1200px) {
@@ -98,24 +132,37 @@
     }
   }
 }
+@media (max-width: 800px) {
+  .content{
+    flex-direction: column;
+    .content-r{
+      margin-top: 30px;
+      margin-left: 0;
+    }
+  }
+}
 </style>
 
 <template>
   <div class="main-content">
     <header class="header">
-      <!-- <span @click="$router.push({name:'main.articleList'})">WHATBLOG</span> -->
-      <img @click="$router.push({name:'main.articleList'})"
+      <!-- <span @click="$router.push({name:'client.articleList'})">WHATBLOG</span> -->
+      <img @click="$router.push({name:'client.articleList'})"
            src="~@assets/images/whatblog.png"
            alt="">
     </header>
-    <router-view class="content"></router-view>
+    <div class="content">
+      <router-view class="content-l"></router-view>
+      <div class="content-r">
+        <sidebar @toogleLyric="toogleLyric" @updateLyric="updateLyric"></sidebar>
+      </div>
+    </div>
     <footer class="footer">
-      <p class="say-hello">不必仰望别人,自己亦是风景🤞</p>
-      <p>博客已艰难运行{{runTm}}</p>
-      <p class="href-info">© {{nowYear}} WHATBLOG.CN
+      <p>风轻云淡，一笑而过(ง •_•)ง博客已艰难运行{{runTm}}</p>
+      <p class="href-info">© {{nowYear}} WHATBLOG.CN V2.0
         <a href="http://www.beian.miit.gov.cn/">鄂ICP备18013666号-2</a>
         <a href="javascript:;"
-           @click="$router.push({name:'main.friendshipChainList'})">小伙伴</a>
+           @click="$router.push({name:'client.friendsList'})">小伙伴</a>
         <a href="https://github.com/zg-jun"
            target="_blank">GitHub</a>
         <a href="https://blog.csdn.net/qq_38944959"
@@ -128,16 +175,17 @@
       <i class="el-icon-arrow-up"></i>
       <span>TOP</span>
     </div>
+    <!-- 歌词 -->
+    <div v-if="isShowLyric" class="lyric-txt">{{lyricTxt}}</div>
   </div>
 </template>
 
 <script>
-
-import { runTime } from '@assets/utils/tool'
-
+import sidebar from '@components/sidebar/sidebar';
 export default {
   name: "Home",
   components: {
+    sidebar
   },
   computed: {
     nowYear () {
@@ -147,13 +195,22 @@ export default {
   data () {
     return {
       runTm: null,
-      isShowTop: false
+      isShowTop: false,
+      isShowLyric:true,
+      lyricTxt:''
     }
   },
   methods: {
     toTop () {
       // 回到顶部
       document.documentElement.scrollTop = document.body.scrollTop = 0;
+    },
+    toogleLyric(){
+      this.isShowLyric = !this.isShowLyric;
+    },
+    updateLyric(val){
+      this.lyricTxt = val;
+      document.title = val;
     }
   },
   mounted () {
@@ -163,7 +220,7 @@ export default {
     })
   },
   created () {
-    setInterval(() => { this.runTm = runTime("2020-08-08 00:00:00") }, 1000);
+    setInterval(() => { this.runTm = this._Tool.getRunTime("2020-08-08 00:00:00") }, 1000);
   }
 }
 </script>

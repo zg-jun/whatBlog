@@ -43,6 +43,12 @@ export default {
           childrenMenu: [
             { menuName: '管理列表' }
           ]
+        },
+        {
+          menuName: '站点管理',
+          childrenMenu: [
+            { menuName: '友链列表' }
+          ]
         }
       ]
     }
@@ -55,10 +61,13 @@ export default {
           this.$route.name !== 'admin.addArticle' && this.$router.push({ name: 'admin.addArticle' });
           break;
         case '1-2':
-          this.$route.name !== 'admin.actionArticle' && this.$router.push({ name: 'admin.actionArticle' });
+          this.$route.name !== 'admin.articlesManage' && this.$router.push({ name: 'admin.articlesManage' });
           break;
         case '2-1':
-          this.$route.name !== 'admin.adminList' && this.$router.push({ name: 'admin.adminList' });
+          this.$route.name !== 'admin.authAdmin' && this.$router.push({ name: 'admin.authAdmin' });
+          break;
+        case '3-1':
+          this.$route.name !== 'admin.friendsManage' && this.$router.push({ name: 'admin.friendsManage' });
           break;
       }
     }

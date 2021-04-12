@@ -23,7 +23,7 @@ router.get('/getArticle', function (req, res, next) {
 // 根据id获取文章详情
 router.get('/getArticleDetail', function (req, res, next) {
   let { _id } = req.query;
-  Article.findOne({ _id, isDel: 0 }, function (err, data) {
+  Article.findOne({ _id }, function (err, data) {
     if (err) return res.send({
       code: -1,
       msg: '查询详情失败',

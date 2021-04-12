@@ -1,8 +1,10 @@
-<style lang='scss' scoped>
+<style lang="scss" scoped>
+@import '@assets/style/_vars';
+
 .admin-content {
   .login-box {
     width: 400px;
-    height: 414px;
+    height: 400px;
     position: absolute;
     left: 0;
     top: 0;
@@ -17,12 +19,13 @@
       padding: 0;
       margin-bottom: 50px;
       color: #606975;
+      color: map-get($colors, 'primary');
       text-align: center;
     }
   }
   /deep/ .el-form-item {
     &:not(:nth-last-child(1)) {
-      margin-bottom: 50px;
+      margin-bottom: 40px;
     }
     .el-form-item__label {
       padding: 0;
@@ -36,7 +39,7 @@
       padding: 0;
       transition: all 0.1s linear;
       &:focus {
-        border-color: #606975;
+        border-color: map-get($colors, 'primary');
       }
     }
     .el-button {
@@ -45,13 +48,13 @@
       color: #606975;
       &:hover {
         color: #fff;
-        border-color: #606975;
-        background-color: #606975;
+        border-color: map-get($colors, 'primary');
+        background-color: map-get($colors, 'primary');
       }
       &:focus {
         color: #fff;
-        border-color: #606975;
-        background-color: #606975;
+        border-color: map-get($colors, 'primary');
+        background-color: map-get($colors, 'primary');
       }
     }
   }
@@ -62,19 +65,19 @@
   <div class="admin-content">
     <div class="login-box">
       <h3 class="title">WHATBLOG</h3>
-      <el-form :label-position="labelPosition"
-               label-width="80px"
-               :model="formData">
+      <el-form
+        :label-position="labelPosition"
+        label-width="80px"
+        :model="formData"
+      >
         <el-form-item label="账号">
           <el-input v-model="formData.username"></el-input>
         </el-form-item>
         <el-form-item label="密码">
-          <el-input v-model="formData.password"
-                    type="password"></el-input>
+          <el-input v-model="formData.password" type="password"></el-input>
         </el-form-item>
         <el-form-item label="">
-          <el-button round
-                     @click="login">登录</el-button>
+          <el-button round @click="login">登录</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -82,27 +85,29 @@
 </template>
 
 <script>
-import { adminLogin } from '@service/admin/adminLogin/adminLogin';
+import { adminLogin } from '@service/admin/login/login'
 export default {
-  data () {
+  data() {
     return {
       labelPosition: 'top',
-      formData: {}
+      formData: {},
     }
   },
   methods: {
-    login () {
-      adminLogin(this.formData).then(res => {
-        if (res.data.code !== 0) return this.$message({
-          message: res.data.msg,
-          type: 'error'
-        });
-        sessionStorage.token = res.data.token;
-        sessionStorage.userInfo =JSON.stringify({username:this.formData.username});
-        this.$router.push({ name: 'admin.actionArticle' });
+    login() {
+      adminLogin(this.formData).then((res) => {
+        if (res.data.code !== 0)
+          return this.$message({
+            message: res.data.msg,
+            type: 'error',
+          })
+        sessionStorage.token = res.data.token
+        sessionStorage.userInfo = JSON.stringify({
+          username: this.formData.username,
+        })
+        this.$router.push({ name: 'admin.articlesManage' })
       })
-    }
+    },
   },
 }
-
 </script>
