@@ -40,4 +40,5 @@ export const _DELETE = (url, params) => {
   })
 }
 
-export const Http = 'https://whatblog.cn';
+export const Http = '';
+// export const Http = 'https://whatblog.cn';

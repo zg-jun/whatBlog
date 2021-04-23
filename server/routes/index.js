@@ -83,7 +83,7 @@ router.get('/getArticleDetail', function (req, res, next) {
       data
     });
   })
-})
+});
 
 // 获取分类列表
 router.get('/getClassify', function (req, res, next) {
@@ -98,7 +98,7 @@ router.get('/getClassify', function (req, res, next) {
       data
     });
   })
-})
+});
 
 // 添加分类
 router.post('/addClassify', urlencodedParser, function (req, res, next) {
@@ -128,7 +128,7 @@ router.put('/editViews', urlencodedParser, function (req, res, next) {
       msg: '操作成功'
     });
   })
-})
+});
 
 // 管理员列表
 router.get('/getAdminUser', authMiddleware(), urlencodedParser, function (req, res, next) {
