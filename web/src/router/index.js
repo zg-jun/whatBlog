@@ -4,6 +4,13 @@ import routes from "./router";
 
 Vue.use(VueRouter);
 
+//获取原型对象上的push函数
+const originalPush = VueRouter.prototype.push
+//修改原型对象中的push方法
+VueRouter.prototype.push = function push(location) {
+   return originalPush.call(this, location).catch(err => err)
+}
+
 // 递归检测是否包含同级目录
 const findRoute = (routeItem, routeName) => {
   for (let item of routeItem) {

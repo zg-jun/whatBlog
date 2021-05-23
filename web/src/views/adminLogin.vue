@@ -105,7 +105,7 @@ export default {
         sessionStorage.userInfo = JSON.stringify({
           username: this.formData.username,
         })
-        this.$router.push({ name: 'articlesManage' })
+        this.$router.push({ name: 'articleManage' })
       })
     },
   },

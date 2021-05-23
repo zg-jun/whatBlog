@@ -1,15 +1,15 @@
 <style lang="scss" scoped>
 .music-card-container {
-  // box-shadow:0 0 1px #00000026;
-  // border-radius: 15px;
-  // background: #fff;
+    box-shadow: 0 2px 10px 0 #0000001a;
+  border-radius: 5px;
+  background: #fff;
   // overflow: hidden;
-  padding: 5px;
+  // padding: 5px;
   user-select: none;
   .music-box{
     height: 50px;
-    background: #eff3f5;
-    border-radius: 25px;
+    // background: #fff;
+    // border-radius: 5px;
     position: relative;
     display: flex;
     .container-l {
@@ -34,7 +34,7 @@
     img {
       width: 100%;
       height: 100%;
-      border-radius: 10px;
+      border-radius: 5px;
     }
     }
     .container-r {
@@ -44,7 +44,7 @@
     justify-content: space-between;
     align-items: center;
     // flex-direction: column;
-    padding: 0 20px 0 10px;
+    padding: 0 15px 0 10px;
     // background: #fff;
     .container-r-t {
       flex:1;
@@ -104,21 +104,21 @@
     }
     &::-webkit-scrollbar-thumb {
       /*滚动条里面小方块*/
-      border-radius: 10px;
+      border-radius: 5px;
       -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
       background: #51525d;
     }
     .list-item{
-      padding: 0 10px;
-      // line-height: 40px;
+      padding: 0 15px;
+      line-height: 40px;
       cursor: pointer;
-      margin-top: 10px;
+      // margin-top: 10px;
       font-size: 14px;
       &.active{
         color: #00baba;
       }
       &:nth-child(odd){
-        // background: #8f171703;
+        background: #8f171703;
       }
     }
   }
@@ -143,7 +143,7 @@
           <span>{{ videoInfo.currentTime | formateTime }}</span
           >/<span>{{ videoInfo.duration | formateTime }}</span>
         </div> -->
-        <i :class="isPlay ? 'el-icon-video-pause' : 'el-icon-video-play'"@click="play"></i>
+        <i :class="isPlay ? 'el-icon-video-pause' : 'el-icon-video-play'" @click="play"></i>
         <i class="el-icon-tickets" @click="isShowList = !isShowList"></i>
       </div>
     </div>

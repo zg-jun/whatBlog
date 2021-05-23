@@ -1,7 +1,7 @@
 <style lang="scss" scope>
 
 .wb-container {
-    width: 1200px;
+    width: 1100px;
     min-height: 100vh;
     margin: 0 auto;
     display: flex;
@@ -12,6 +12,7 @@
     display: flex;
     .wb-body-container-l{
       flex:2;
+      overflow: hidden;
       margin-right: 50px;
     }
     .wb-body-container-r{
@@ -118,8 +119,11 @@ export default {
       this.lyricTxt = val;
       document.title = val;
     },
-    handlerSearch(keyWord){
-      this.$refs.routerView.getList(keyWord);
+    handlerSearch(searchData){
+      this.$route.name!=='articleList' && this.$router.push({name:'articleList'});
+      this.$nextTick(()=>{
+         this.$refs.routerView.getList(searchData);
+      })
     }
   },
   mounted () {

@@ -78,7 +78,8 @@ import {
   Loading,
   MessageBox,
   Message,
-  Notification
+  Notification,
+  Avatar 
 } from 'element-ui';
 
 Vue.use(Pagination);
@@ -153,6 +154,7 @@ Vue.use(Image);
 Vue.use(Calendar);
 Vue.use(Backtop);
 Vue.use(PageHeader);
+Vue.use(Avatar);
 Vue.use(CascaderPanel);
 Vue.use(Loading.directive);
 

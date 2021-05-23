@@ -43,11 +43,11 @@
     <div class="list-box">
       <div v-for="(item,index) in list"
            :key="index">
-        <img :src="item.url"
+        <img :src="item.avatar"
              :alt="item.name">
         <a :href="item.url"
-           :title="item.avatar"
-           target="_blank">{{item.avatar}}</a>
+           :title="item.name"
+           target="_blank">{{item.name}}</a>
       </div>
     </div>
   </div>

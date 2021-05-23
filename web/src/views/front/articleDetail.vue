@@ -2,8 +2,9 @@
 @import '@assets/style/_vars';
 @import '@assets/style/_mixins';
 .detail-box {
-  // background: #fff;
-  // @include pd(20px);
+  background: #fff;
+  border-radius: 5px;
+  @include pd(10px);
     .article-title {
       margin: 0;
       padding: 0;
@@ -57,6 +58,8 @@
           display: block;
           background-color: #2c2a2a;
           color: #8bc34a;
+          font-weight: bold;
+          font-family: serif;
           border-radius: 5px;
           padding: 10px 20px;
           line-height: 20px;
@@ -81,8 +84,8 @@
         <h3 class="article-title">{{ detailData.title }}</h3>
         <div class="article-from">
           <span>发表于 {{ detailData.datetime | formatTime }}</span>
-          <span><i class="el-icon-edit"></i> {{ detailData.author }}</span>
-          <span><i class="el-icon-view"></i> {{ detailData.views }}人浏览</span>
+          <!-- <span><i class="el-icon-edit"></i> {{ detailData.author }}</span> -->
+          <span><i class="el-icon-view"></i> {{ detailData.views }}次浏览</span>
         </div>
         <div class="article-content" v-html="detailData.content"></div>
       </div>
@@ -108,7 +111,8 @@ export default {
   },
   methods: {
     getDetail() {
-      let _id = this.$route.query.id
+      this.detailData=null;
+      let _id = this.$route.query.id;
       editViews({ _id })
         .then((res) => {
           if (res.data.code === 0) return getArticleDetail({ _id })
@@ -119,5 +123,10 @@ export default {
         })
     },
   },
+  watch:{
+    '$route'(){
+      this.getDetail();
+    }
+  }
 }
 </script>

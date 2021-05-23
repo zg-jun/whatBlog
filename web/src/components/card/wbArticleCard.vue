@@ -7,10 +7,10 @@
     display: flex;
     flex-direction: column;
     transition: all .2s linear;
-    border-radius: 10px;
-    padding: 5px;
+    border-radius: 5px;
+    // padding: 5px;
     background: #fff;
-            box-shadow: 0 0 12px #0000001a;
+    box-shadow: 0 2px 10px 0 #0000001a;
     // &:nth-child(1){
     //   padding-top: 0;
     // }
@@ -26,8 +26,8 @@
       justify-content: center;
       align-items: center;
       // margin-bottom: 5px;
-      border-radius: 10px;
-      max-height: 350px;
+      border-radius: 5px;
+      max-height: 300px;
       overflow: hidden;
      img{
       width: 100%;
@@ -49,8 +49,9 @@
         cursor: pointer;
         transition: all .1s linear;
         &:hover{
-          background: map-get($colors, "text1");
-          color: #fff;
+          // text-decoration: underline;
+          // background: map-get($colors, "text1");
+          // color: #fff;
           // border-color:map-get($colors, "primary");
         }
       }
@@ -64,7 +65,7 @@
       }
     }
     .card-footer{
-        padding:  0 10px;
+        padding: 0 10px 10px;
         @include f-sc(12px,map-get($colors, "text2"));
           span{
             i{
@@ -84,13 +85,13 @@
         <img :src="data.bgUrl" alt="">
       </div>
       <div class="card-body">
-        <h3 class="card-body-title"  @click="$router.push({name:'articleDetail',query:{id:data._id}})">{{data.title}}</h3>
+        <h3 class="card-body-title"  @click="$router.push({name:'articleDetail',query:{id:data._id}})"><a href="javascript:;">{{data.title}}</a></h3>
         <p class="card-body-abstract">{{data.abstract | formatAbstract}}</p>
       </div>
       <div class="card-footer">
         <!-- <div class="card-footer-info"> -->
           <span><i class="el-icon-time"></i>发表于{{data.datetime | formatTime}}</span> 
-          <span><i class="el-icon-edit-outline"></i>{{data.author}}</span>
+          <span><i class="el-icon-edit-outline"></i>{{data.classifyId.join(',')}}</span>
           <span><i class="el-icon-view"></i>{{data.views}}次浏览</span>
         <!-- </div>
         <div class="card-footer-read" @click="$router.push({name:'articleDetail',params:{id:data._id}})">阅读全文</div> -->

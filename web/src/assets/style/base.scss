@@ -14,11 +14,12 @@ a {
   text-decoration: none;
   color: #606975;
   cursor: pointer;
-  border-bottom: 1px solid #606975;
+  border-bottom: 2px solid transparent;
   transition: all 0.2s linear;
   &:hover {
-    background: rgba(0, 186, 186, 0.5);
-    color: #fff;
+    // background: rgba(0, 186, 186, 0.5);
+    border-bottom-color: #606975;
+    // color: #fff;
   }
 }
 

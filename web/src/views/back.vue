@@ -65,7 +65,7 @@
       </el-dropdown>
     </header>
     <div class="main-box">
-      <navbar></navbar>
+      <wb-navbar></wb-navbar>
       <router-view class="main-view"></router-view>
     </div>
     <footer class="footer">

@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const adminUserSchema = new mongoose.Schema({
   username: String,
   password: String,
-  isDisable: {
+  isDel: {
     type: Number,
     default: 0
   },

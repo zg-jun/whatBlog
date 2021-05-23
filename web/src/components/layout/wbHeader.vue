@@ -21,7 +21,7 @@
 
 <template>
 <div class="wb-header-container">
-    <i class="logo" @click="$router.push({name:'articleList'})"></i>
+    <i class="logo" @click="toIndex"></i>
 </div>
 </template>
 
@@ -31,6 +31,11 @@
     data () {
       return {
 
+      }
+    },
+    methods: {
+      toIndex(){
+        this.$route.name === 'articleList' ? window.location.reload() : this.$router.push({name:'articleList'})
       }
     },
   }

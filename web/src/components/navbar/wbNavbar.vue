@@ -6,9 +6,9 @@
 
 <template>
   <div class="nav-content">
-    <el-aside width="200px"
-              style="background-color: rgb(238, 241, 246)">
+    <el-aside width="200px">
       <el-menu :default-openeds="['1']"
+               unique-opened
                @select="selMenu">
         <el-submenu v-for="(item1,index1) in menuList"
                     :key="index1"
@@ -34,40 +34,40 @@ export default {
         {
           menuName: '文章管理',
           childrenMenu: [
-            { menuName: '发布文章' },
+            // { menuName: '发布文章' },
             { menuName: '文章列表' }
           ]
         },
         {
           menuName: '权限管理',
           childrenMenu: [
-            { menuName: '管理列表' }
+            { menuName: '管理员列表' }
           ]
         },
         {
           menuName: '站点管理',
           childrenMenu: [
-            { menuName: '友链列表' }
+            { menuName: '友链列表' },
+            // { menuName: '站点配置' }
           ]
         }
       ]
     }
-
   },
   methods: {
     selMenu (index) {
       switch (index) {
+        // case '1-1':
+        //   this.$route.name !== 'addArticle' && this.$router.push({ name: 'addArticle' });
+        //   break;
         case '1-1':
-          this.$route.name !== 'addArticle' && this.$router.push({ name: 'addArticle' });
-          break;
-        case '1-2':
-          this.$route.name !== 'articlesManage' && this.$router.push({ name: 'articlesManage' });
+          this.$route.name !== 'articleManage' && this.$router.push({ name: 'articleManage' });
           break;
         case '2-1':
-          this.$route.name !== 'authAdmin' && this.$router.push({ name: 'authAdmin' });
+          this.$route.name !== 'adminManage' && this.$router.push({ name: 'adminManage' });
           break;
         case '3-1':
-          this.$route.name !== 'friendsManage' && this.$router.push({ name: 'friendsManage' });
+          this.$route.name !== 'friendManage' && this.$router.push({ name: 'friendManage' });
           break;
       }
     }

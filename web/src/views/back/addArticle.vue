@@ -22,9 +22,15 @@
                     prop="author">
         <el-input v-model="formData.author" placeholder="请填写文章作者"></el-input>
       </el-form-item>
+      <el-form-item label="文章标签"
+                    prop="classifyId">
+            <el-checkbox-group v-model="formData.classifyId">
+              <el-checkbox-button v-for="item in tagList" :label="item._id" :key="item._id">{{item.classifyName}}</el-checkbox-button>
+            </el-checkbox-group>
+      </el-form-item>
       <el-form-item label="文章背景图">
         <el-upload
-          action="/backapi/uploadFile"
+          action="/api/uploadFile"
           :headers="uploadHeaders"
           accept=".jpg,.jpeg,.png"
           :limit="1"
@@ -32,7 +38,8 @@
           :on-preview="handlePictureCardPreview"
           :before-upload="beforeUpload"
           :on-success="handleSuccess"
-          :on-remove="handleRemove">
+          :on-remove="handleRemove"
+          :file-list="fileList">
           <i class="el-icon-plus"></i>
         </el-upload>
         <el-dialog :visible.sync="dialogVisible">
@@ -61,12 +68,14 @@
 
 <script>
 import E from 'wangeditor';
-import { addArticle, editArticle } from '@service/back/article/article';
+import { addArticle, editArticle,getClassify } from '@service/back/article/article';
 import { getArticleDetail } from '@service/front/article/article';
 export default {
   props: ['id'],
   data () {
     return {
+      tagList:[],
+      fileList:[],
       uploadHeaders:{Authorization:'Bearer ' + sessionStorage.token},
       dialogImageUrl: '',
       dialogVisible: false,
@@ -75,6 +84,7 @@ export default {
         title: '',
         abstract: '',
         author: '',
+        classifyId:[],
         bgUrl:'',
         content: '',
         isDel: 0
@@ -96,9 +106,15 @@ export default {
     this.setEditor();
   },
   created () {
-    if (this.$route.params.id) this.getDetail(this.$route.params.id);
+    if (this.$route.query.id) this.getDetail(this.$route.query.id);
+    this.getTagList();
   },
   methods: {
+    getTagList(){
+      getClassify().then(res=>{
+        this.tagList = res.data.data;
+      })
+    },
     beforeUpload(file){
       const isLt2M = file.size / 1024 / 1024 < 2;
       if (!isLt2M) return this.$message.warning('上传图片不能超过2MB');
@@ -116,12 +132,16 @@ export default {
       },
     getDetail (_id) {
       getArticleDetail({ _id }).then(res => {
-        let { title, abstract, author, content, isDel } = res.data.data;
+        let { title, abstract, author,classifyId,bgUrl, content, isDel } = res.data.data;
         this.formData.title = title;
         this.formData.abstract = abstract;
         this.formData.author = author;
+        this.formData.classifyId = classifyId;
+        this.formData.bgUrl = bgUrl;
         this.formData.content = content;
         this.formData.isDel = isDel;
+        // 上传回显
+        bgUrl && (this.fileList = [{ url:bgUrl }]);
         // 富文本编辑器回显
         this.editor.txt.html(content);
       })
@@ -129,7 +149,7 @@ export default {
     submitArticle () {
        this.$refs['form'].validate((valid) => {
          if (valid) {
-           this.$route.params.id && editArticle({ _id: this.$route.params.id, data: this.formData }).then(res => {
+           this.$route.query.id && editArticle({ _id: this.$route.query.id, ...this.formData }).then(res => {
             this.$message({
               type: res.data.code === 0 ? 'success' : 'error',
               message: res.data.msg
@@ -137,7 +157,7 @@ export default {
             this.$refs['form'].resetFields();
             this.$router.push({name:'articlesManage'});
           })
-          !this.$route.params.id && addArticle(this.formData).then(res => {
+          !this.$route.query.id && addArticle(this.formData).then(res => {
             this.$message({
               type: res.data.code === 0 ? 'success' : 'error',
               message: res.data.msg
@@ -151,7 +171,7 @@ export default {
     setEditor () {
       this.editor = new E(this.$refs.editBox);
       this.editor.customConfig.uploadImgShowBase64 = false // base 64 存储图片
-      this.editor.customConfig.uploadImgServer = '/backapi/uploadFile'// 配置服务器端地址
+      this.editor.customConfig.uploadImgServer = '/api/uploadFile'// 配置服务器端地址
       this.editor.customConfig.uploadFileName = 'file' // 后端接受上传文件的参数名
       this.editor.customConfig.uploadImgMaxSize = 2 * 1024 * 1024 // 将图片大小限制为 2M
       this.editor.customConfig.uploadImgMaxLength = 1 // 限制一次上传数量

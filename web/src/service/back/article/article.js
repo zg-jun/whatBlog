@@ -11,3 +11,7 @@ export const showArticle = (plyload) => _PUT(Http + '/api/showArticle', plyload)
 export const recoveryArticle = (plyload) => _PUT(Http + '/api/recoveryArticle', plyload);
 
 export const delArticle = (plyload) => _DELETE(Http + '/api/delArticle', plyload);
+
+// 获取所有标签
+export const getClassify = (plyload) => _GET(Http + '/api/getClassify', plyload);
+

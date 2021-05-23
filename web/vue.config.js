@@ -102,14 +102,6 @@ module.exports = {
           "^/api": ""
         }
       },
-      "/backapi": {
-        target: "http://127.0.0.1:3000/backapi/",
-        changeOrigin: true,
-        ws: true,
-        pathRewrite: {
-          "^/backapi": ""
-        }
-      },
       "/mapi": {
         target: "https://whatblog.cn/mapi/",
         changeOrigin: true,

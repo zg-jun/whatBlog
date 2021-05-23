@@ -49,9 +49,9 @@ export default {
     this.getList()
   },
   methods: {
-    getList(keyWord='') {
+    getList(searchData={}) {
       this.loading = true;
-      getArticle({keyWord}).then((res) => {
+      getArticle(searchData).then((res) => {
         this.articleData = res.data.data;
         this.loading = false;
       })

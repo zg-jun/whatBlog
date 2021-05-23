@@ -39,7 +39,7 @@ const upload = multer({ storage });
 router.get('/getArticle', function (req, res, next) {
   let { pageSize=10, pageNum=1, keyWord, cId } = req.query;
   let reg = new RegExp(keyWord, 'i') //不区分大小写
-  let query = {};
+  let query = {isDel: 0 };
   keyWord && (query={ 
     isDel: 0 ,
     $or : [ //多条件，数组
@@ -85,7 +85,22 @@ router.get('/getArticleDetail', function (req, res, next) {
   })
 });
 
-// 获取分类列表
+// 热门文章
+router.get('/getHotArticle', function (req, res, next) {
+  Article.find({}, null, { sort: { views: -1 },limit:5 }, function (err, data) {
+    if (err) return res.send({
+      code: -1,
+      msg: '操作失败',
+    });
+    res.send({
+      code: 0,
+      msg: '操作成功',
+      data
+    });
+  })
+})
+
+// 获取标签列表
 router.get('/getClassify', function (req, res, next) {
   Classify.find({}, function (err, data) {
     if (err) return res.send({
@@ -100,8 +115,8 @@ router.get('/getClassify', function (req, res, next) {
   })
 });
 
-// 添加分类
-router.post('/addClassify', urlencodedParser, function (req, res, next) {
+// 添加标签
+router.post('/addClassify',authMiddleware(), urlencodedParser, function (req, res, next) {
   let body = req.body;
   Classify.insertMany(body, function (err) {
     if (err) return res.send({
@@ -132,7 +147,10 @@ router.put('/editViews', urlencodedParser, function (req, res, next) {
 
 // 管理员列表
 router.get('/getAdminUser', authMiddleware(), urlencodedParser, function (req, res, next) {
-  AdminUser.find({}, function (err, data) {
+  let {username} = req.query;
+  let reg = new RegExp(username, 'i') //不区分大小写
+  let query = { username:{$regex : reg} }
+  AdminUser.find(query, null, { sort: { datetime: -1 } },function (err, data) {
     if (err) return res.send({
       code: -1,
       msg: '操作失败',
@@ -145,10 +163,57 @@ router.get('/getAdminUser', authMiddleware(), urlencodedParser, function (req, r
   })
 });
 
+// 添加管理员
+router.post('/addAdminUser', authMiddleware(), urlencodedParser, function (req, res, next) {
+  let body = req.body;
+  AdminUser.insertMany(body, function (err) {
+    if (err) return res.send({
+      code: -1,
+      msg: '操作失败',
+    })
+    res.send({
+      code: 0,
+      msg: '操作成功',
+    });
+  })
+})
+
+// 编辑管理员
+router.put('/editAdminUser',authMiddleware(), urlencodedParser, function (req, res, next) {
+  let { _id } = req.body;
+  let data = req.body;
+  delete data._id;
+  AdminUser.findByIdAndUpdate(_id, { $set: data }, function (err) {
+    if (err) return res.send({
+      code: -1,
+      msg: '操作失败',
+    })
+    res.send({
+      code: 0,
+      msg: '操作成功',
+    });
+  })
+})
+
+// 删除管理员
+router.delete('/delAdminUser',authMiddleware(), function (req, res, next) {
+  let { _id } = req.query;
+  AdminUser.findByIdAndRemove(_id, function (err) {
+    if (err) return res.send({
+      code: -1,
+      msg: '操作失败',
+    })
+    res.send({
+      code: 0,
+      msg: '操作成功',
+    });
+  })
+})
+
 // 管理员登录
 router.post('/adminLogin', urlencodedParser, function (req, res, next) {
   let { username, password } = req.body;
-  AdminUser.findOne({ username, password }, function (err, data) {
+  AdminUser.findOne({ username, password ,isDel:0}, function (err, data) {
     if (err) return res.send({
       code: -1,
       msg: '登录失败',
@@ -167,7 +232,10 @@ router.post('/adminLogin', urlencodedParser, function (req, res, next) {
 
 // 所有文章列表
 router.get('/getAllArticle', authMiddleware(), function (req, res, next) {
-  Article.find({}, null, { sort: { datetime: -1 } }, function (err, data) {
+  let {title} = req.query;
+  let reg = new RegExp(title, 'i') //不区分大小写
+  let query = { title:{$regex : reg} }
+  Article.find(query, null, { sort: { datetime: -1 } }, function (err, data) {
     if (err) return res.send({
       code: -1,
       msg: '操作失败',
@@ -197,7 +265,9 @@ router.post('/addArticle', authMiddleware(), urlencodedParser, function (req, re
 
 // 编辑文章
 router.put('/editArticle', authMiddleware(), urlencodedParser, function (req, res, next) {
-  let { _id, data } = req.body;
+  let { _id } = req.body;
+  let data = req.body;
+  delete data.id;
   Article.findByIdAndUpdate(_id, { $set: data }, function (err) {
     if (err) return res.send({
       code: -1,
@@ -235,7 +305,7 @@ router.post('/uploadFile', authMiddleware(), upload.single('file'), function (re
 })
 
 // 添加友链
-router.post('/addFriends', urlencodedParser, function (req, res, next) {
+router.post('/addFriends',authMiddleware(), urlencodedParser, function (req, res, next) {
   let body = req.body;
   Friends.insertMany(body, function (err) {
     if (err) return res.send({
@@ -249,9 +319,29 @@ router.post('/addFriends', urlencodedParser, function (req, res, next) {
   })
 })
 
+// 编辑友链
+router.put('/editFriends', authMiddleware(), urlencodedParser, function (req, res, next) {
+  let { _id } = req.body;
+  let data = req.body;
+  delete data.id;
+  Friends.findByIdAndUpdate(_id, { $set: data }, function (err) {
+    if (err) return res.send({
+      code: -1,
+      msg: '操作失败',
+    })
+    res.send({
+      code: 0,
+      msg: '操作成功',
+    });
+  })
+})
+
 // 友链列表
-router.get('/getFriends', function (req, res, next) {
-  Friends.find({}, null, { sort: { datetime: -1 } }, function (err, data) {
+router.get('/getFriends',urlencodedParser, function (req, res, next) {
+  let {name} = req.query;
+  let reg = new RegExp(name, 'i') //不区分大小写
+  let query = { name:{$regex : reg} }
+  Friends.find(query, null, { sort: { datetime: -1 } }, function (err, data) {
     if (err) return res.send({
       code: -1,
       msg: '操作失败',
@@ -260,6 +350,21 @@ router.get('/getFriends', function (req, res, next) {
       code: 0,
       msg: '操作成功',
       data
+    });
+  })
+})
+
+// 删除友链
+router.delete('/delFriends', authMiddleware(), function (req, res, next) {
+  let { _id } = req.query;
+  Friends.findByIdAndRemove(_id, function (err) {
+    if (err) return res.send({
+      code: -1,
+      msg: '操作失败',
+    })
+    res.send({
+      code: 0,
+      msg: '操作成功',
     });
   })
 })
