@@ -93,6 +93,7 @@
     <el-dialog
     :title="formData._id?'编辑管理员':'添加管理员'"
     :visible.sync="adminDialogVisible"
+     :close-on-click-modal="false"
     width="500px">
     <!-- 表单部分 -->
     <el-form ref="form"

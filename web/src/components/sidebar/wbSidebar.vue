@@ -1,30 +1,27 @@
 <style lang="scss" scoped>
 .sidebar-container {
-    // background: #fff;
+    background: #fff;
     // box-shadow: 0 0 12px #0000001a;
-    // border-radius: 5px;
-    // padding:15px;
+    border-radius: 5px;
+    padding:10px;
     overflow: hidden;
     .card-style{
-      background: #fff;
-      box-shadow: 0 2px 10px 0 #0000001a;
       margin-bottom: 20px;
-      padding:10px;
-    border-radius: 5px;
     }
     .search-box{
       .el-input {
     // margin-bottom: 20px;
-    background: #fff;
+    // background: #fff;
     border-radius: 5px;
       // padding-left: 10px;
     /deep/ .el-input__inner {
-      // border-radius: 0px;
-      padding: 0;
+      border-radius: 0px;
+      padding: 5px 0;
       border: none;
       background: transparent;
       height: auto;
       line-height: normal;
+      // border-bottom: 1px solid #aeaeae;
       // box-shadow:0 1px 0 #00000026;
       &::placeholder{
         color: #aeaeae;
@@ -46,10 +43,22 @@
   .hot-list{
         margin-top: 5px;
         .hot-list-item{
-          display: block;
-          margin-right: 10px;
+          display: flex;
+          align-items: center;
           &+.hot-list-item{
             margin-top: 5px;
+          }
+          .hot-title{
+            flex: 1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+          .view-count{
+            font-size: 10px;
+            i{
+              margin-right: 3px;
+            }
           }
         }
       }
@@ -61,8 +70,6 @@
         flex-wrap: wrap;
       .link-list-item{
           margin-right: 10px;
-          // display: flex;
-          // align-items: center;
       }
       }
     }
@@ -77,7 +84,7 @@
     </div>
     <!-- 文章分类 -->
     <div class="card-style classify-box">
-      <h4>文章分类</h4>
+      <h4>文章标签</h4>
       <div class="classify-list">
         <span class="classify-list-item" v-for="item in classifyList" :key="item._id"><a href="javascript:;" @click="handlerSearch({cId:item._id})">{{item.classifyName}}</a></span>
       </div>
@@ -86,7 +93,10 @@
     <div class="card-style hot-article-box">
       <h4>热门文章</h4>
       <div class="hot-list">
-        <span class="hot-list-item" v-for="item in hotArticleList" :key="item._id"><a href="javascript:;" @click="$router.push({name:'articleDetail',query:{id:item._id}})">{{item.title}}</a></span>
+        <a href="javascript:;" class="hot-list-item" v-for="item in hotArticleList" :key="item._id">
+          <span class="hot-title"  @click="$router.push({name:'articleDetail',query:{id:item._id}})">{{item.title}}</span>
+          <span class="view-count"><i class="el-icon-view"></i>{{item.views}}</span>
+        </a>
       </div>
     </div>
     <!-- 链接 -->

@@ -1,8 +1,8 @@
 <style lang="scss" scoped>
 .music-card-container {
-    box-shadow: 0 2px 10px 0 #0000001a;
-  border-radius: 5px;
-  background: #fff;
+  // box-shadow: 0 2px 10px 0 #0000001a;
+  border-radius: 25px;
+  background: #e0e8f2;
   // overflow: hidden;
   // padding: 5px;
   user-select: none;

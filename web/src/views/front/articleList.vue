@@ -2,7 +2,7 @@
 .article-list-container{
   display: grid;
   grid-template-columns: repeat(1,1fr);
-  gap: 30px 20px;
+  gap: 20px 0;
 }
 
 @media (max-width: 1200px) {
@@ -45,7 +45,6 @@ export default {
   },
   filters: {},
   created() {
-    // document.title = 'Whatblog'
     this.getList()
   },
   methods: {

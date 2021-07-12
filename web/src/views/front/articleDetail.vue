@@ -58,8 +58,6 @@
           display: block;
           background-color: #2c2a2a;
           color: #8bc34a;
-          font-weight: bold;
-          font-family: serif;
           border-radius: 5px;
           padding: 10px 20px;
           line-height: 20px;

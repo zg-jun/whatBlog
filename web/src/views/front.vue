@@ -1,26 +1,25 @@
 <style lang="scss" scope>
-
 .wb-container {
-    width: 1100px;
-    min-height: 100vh;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-  .wb-body-container{
-    flex:1;
+  width: 1100px;
+  min-height: 100vh;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  .wb-body-container {
+    flex: 1;
     padding: 50px 0;
     display: flex;
-    .wb-body-container-l{
-      flex:2;
+    .wb-body-container-l {
+      flex: 2;
       overflow: hidden;
       margin-right: 50px;
     }
-    .wb-body-container-r{
-      flex:1;
+    .wb-body-container-r {
+      flex: 1;
       overflow: hidden;
     }
   }
-  .lyric-txt{
+  .lyric-txt {
     width: 100%;
     position: fixed;
     bottom: 15px;
@@ -29,21 +28,12 @@
     line-height: 30px;
     color: #fff;
     font-weight: bold;
-    text-shadow: 0px 0px 3px #00baba,
-                 0px 0px 3px #00baba,
-                 0px 0px 3px #00baba,
-                 0px 0px 3px #00baba,
-                 0px 0px 3px #00baba,
-                 0px 0px 3px #00baba,
-                 0px 0px 3px #00baba,
-                 0px 0px 3px #00baba,
-                 0px 0px 3px #00baba,
-                 0px 0px 3px #00baba,
-                 0px 0px 3px #00baba,
-                 0px 0px 3px #00baba,
-                 0px 0px 3px #00baba,
-                 0px 0px 3px #00baba;
-    letter-spacing: .5em;
+    text-shadow: 0px 0px 3px #00baba, 0px 0px 3px #00baba, 0px 0px 3px #00baba,
+      0px 0px 3px #00baba, 0px 0px 3px #00baba, 0px 0px 3px #00baba,
+      0px 0px 3px #00baba, 0px 0px 3px #00baba, 0px 0px 3px #00baba,
+      0px 0px 3px #00baba, 0px 0px 3px #00baba, 0px 0px 3px #00baba,
+      0px 0px 3px #00baba, 0px 0px 3px #00baba;
+    letter-spacing: 0.5em;
     pointer-events: none;
   }
 }
@@ -53,16 +43,16 @@
   }
 }
 @media (max-width: 800px) {
-.wb-container {
-  width: 100%;
-  padding: 0 20px;
-  .wb-body-container{
-    flex-direction: column;
-    .wb-body-container-l{
-      margin:0 0 50px;
+  .wb-container {
+    width: 100%;
+    padding: 0 20px;
+    .wb-body-container {
+      flex-direction: column;
+      .wb-body-container-l {
+        margin: 0 0 50px;
+      }
     }
   }
-}
 }
 </style>
 
@@ -76,7 +66,11 @@
         <router-view ref="routerView"></router-view>
       </div>
       <div class="wb-body-container-r">
-        <wb-sidebar @toogleLyric="toogleLyric" @updateLyric="updateLyric" @handlerSearch="handlerSearch"></wb-sidebar>
+        <wb-sidebar
+          @toogleLyric="toogleLyric"
+          @updateLyric="updateLyric"
+          @handlerSearch="handlerSearch"
+        ></wb-sidebar>
       </div>
     </div>
     <!-- 底部组件 -->
@@ -93,45 +87,56 @@
 </template>
 
 <script>
-
+import { addStatistics } from '@service/front/common/common'
 export default {
   computed: {
-    nowYear () {
+    nowYear() {
       return new Date().getFullYear()
-    }
+    },
   },
-  data () {
+  data() {
     return {
       isShowTop: false,
-      isShowLyric:true,
-      lyricTxt:''
+      isShowLyric: true,
+      lyricTxt: '',
     }
   },
   methods: {
-    toTop () {
+    toTop() {
       // 回到顶部
-      document.documentElement.scrollTop = document.body.scrollTop = 0;
+      document.documentElement.scrollTop = document.body.scrollTop = 0
     },
-    toogleLyric(){
-      this.isShowLyric = !this.isShowLyric;
+    toogleLyric() {
+      this.isShowLyric = !this.isShowLyric
     },
-    updateLyric(val){
-      this.lyricTxt = val;
-      document.title = val;
+    updateLyric(val) {
+      this.lyricTxt = val
     },
-    handlerSearch(searchData){
-      this.$route.name!=='articleList' && this.$router.push({name:'articleList'});
-      this.$nextTick(()=>{
-         this.$refs.routerView.getList(searchData);
+    handlerSearch(searchData) {
+      this.$route.name !== 'articleList' &&
+        this.$router.push({ name: 'articleList' })
+      this.$nextTick(() => {
+        this.$refs.routerView.getList(searchData)
       })
-    }
+    },
+    handleStatistics() {
+      let is_leave = window.sessionStorage.getItem('is_leave')
+      if (!is_leave) {
+        // 统计访问量
+        let { cip: ip, cname: address } = JSON.parse(
+          window.sessionStorage.getItem('statistics_info')
+        )
+        addStatistics({ ip, address })
+        window.sessionStorage.setItem('is_leave', 1)
+      }
+    },
   },
-  mounted () {
+  mounted() {
     document.addEventListener('scroll', () => {
-      let topPx = document.documentElement.scrollTop || document.body.scrollTop;
-      this.isShowTop = topPx > 100;
+      let topPx = document.documentElement.scrollTop || document.body.scrollTop
+      this.isShowTop = topPx > 100
     })
+    this.handleStatistics()
   },
-  
 }
 </script>

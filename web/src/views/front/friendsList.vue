@@ -1,7 +1,14 @@
 <style lang='scss' scoped>
+@import '@assets/style/_mixins';
+
+.friends-list-container{
+ background: #fff;
+  border-radius: 5px;
+  @include pd(10px);
 .list-title {
   text-align: center;
   color: #606975;
+  margin-bottom: 20px;
   span {
     font-size: 14px;
   }
@@ -33,12 +40,14 @@
       text-overflow: ellipsis;
       font-size: 12px;
     }
+}
+
   }
 }
 </style>
 
 <template>
-  <div>
+  <div class="friends-list-container">
     <h3 class="list-title">友链列表<span>{{`(共捕获${list.length}位小伙伴)`}}</span></h3>
     <div class="list-box">
       <div v-for="(item,index) in list"

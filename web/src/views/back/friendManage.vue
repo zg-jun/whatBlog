@@ -88,6 +88,7 @@
     <el-dialog
     :title="formData._id?'编辑友链':'添加友链'"
     :visible.sync="friendDialogVisible"
+     :close-on-click-modal="false"
     width="500px">
     <!-- 表单部分 -->
     <el-form ref="form"
@@ -118,7 +119,7 @@
           :file-list="fileList">
           <i class="el-icon-plus"></i>
         </el-upload>
-        <el-dialog :visible.sync="dialogVisible">
+        <el-dialog :visible.sync="dialogVisible" :close-on-click-modal="false">
           <img width="100%" :src="dialogImageUrl" alt="">
         </el-dialog>
       </el-form-item>

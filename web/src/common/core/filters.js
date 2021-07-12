@@ -18,7 +18,7 @@
    //  过滤文章摘要字数
    Vue.filter('formatAbstract',(val)=>{
     if (!val) return '';
-    let strLen = 200;//限制字符数
+    let strLen = 100;//限制字符数
     return val.length > strLen ? val.slice(0, strLen) + '...' : val;
   });
  }
