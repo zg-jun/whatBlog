@@ -138,7 +138,7 @@ import {
   addFriends,
   editFriends,
   delFriends
-} from '@service/back/friend/friend'
+} from '@service/back/site/site'
 
 export default {
   filters: {},

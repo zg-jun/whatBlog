@@ -38,6 +38,7 @@ export default {
           childrenMenu: [
             // { menuName: '发布文章' },
             { menuName: '文章列表' },
+            { menuName: '文章评论' },
           ],
         },
         {
@@ -60,6 +61,10 @@ export default {
         case '1-1':
           this.$route.name !== 'articleManage' &&
             this.$router.push({ name: 'articleManage' })
+          break
+        case '1-2':
+          this.$route.name !== 'commentManage' &&
+            this.$router.push({ name: 'commentManage' })
           break
         case '2-1':
           this.$route.name !== 'adminManage' &&

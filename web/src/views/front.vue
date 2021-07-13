@@ -49,7 +49,7 @@
     .wb-body-container {
       flex-direction: column;
       .wb-body-container-l {
-        margin: 0 0 50px;
+        margin: 0 0 20px;
       }
     }
   }

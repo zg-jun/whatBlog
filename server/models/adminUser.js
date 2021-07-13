@@ -1,17 +1,23 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
 const adminUserSchema = new mongoose.Schema({
-  username: String,
-  password: String,
+  username: {
+    type: String,
+    required: true,
+  },
+  password: {
+    type: String,
+    required: true,
+  },
   isDel: {
     type: Number,
-    default: 0
+    default: 0,
   },
   datetime: {
     type: Number,
-    default:() => Date.now()
-  }
+    default: () => Date.now(),
+  },
 })
 
 // 导出文章模型
-module.exports = mongoose.model('wb_admin_users', adminUserSchema);
+module.exports = mongoose.model('wb_admin_users', adminUserSchema)

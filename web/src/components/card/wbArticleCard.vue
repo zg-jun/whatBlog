@@ -113,10 +113,12 @@ export default {
   },
   filters: {
     formateClassify(val) {
-      let classifyName = val.map((item) => {
-        return item.split(',')[1]
-      })
-      console.log(classifyName)
+      return val
+        .map((item) => {
+          item = item.split(',')[1]
+          return item
+        })
+        .join('/')
     },
   },
   data() {

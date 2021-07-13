@@ -1,12 +1,27 @@
 const mongoose = require('mongoose')
 
 const articleSchema = new mongoose.Schema({
-  title: String,
-  abstract: String,
-  bgUrl: String,
-  content: String,
+  title: {
+    type: String,
+    required: true,
+  },
+  abstract: {
+    type: String,
+    required: true,
+  },
+  bgUrl: {
+    type: String,
+    required: true,
+  },
+  content: {
+    type: String,
+    required: true,
+  },
   classifyId: Array,
-  author: String,
+  author: {
+    type: String,
+    required: true,
+  },
   datetime: {
     type: Number,
     default: () => Date.now(),

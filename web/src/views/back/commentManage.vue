@@ -12,6 +12,14 @@
     }
   }
 }
+.container-b {
+  /deep/ .el-table {
+    .cell {
+      display: flex;
+      align-items: center;
+    }
+  }
+}
 </style>
 
 <template>
@@ -38,16 +46,36 @@
       </div>
     </div> -->
     <div class="container-b">
-      <el-table :data="tableData" border style="width: 100%">
+      <el-table
+        :data="tableData"
+        style="width: 100%;"
+        row-key="_id"
+        border
+        default-expand-all
+        :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
+      >
         <el-table-column type="index" label="#"> </el-table-column>
-        <el-table-column prop="ip" label="IP" show-overflow-tooltip>
-        </el-table-column>
-        <el-table-column prop="address" label="位置" show-overflow-tooltip>
-        </el-table-column>
-        <el-table-column prop="visits" label="访问次数"> </el-table-column>
-        <el-table-column prop="updatetime" label="最近访问日期">
+        <el-table-column prop="avatar" label="头像">
           <template slot-scope="scope">
-            <span>{{ scope.row.updatetime | formatTime }}</span>
+            <el-avatar
+              shape="square"
+              :size="30"
+              fit="fill"
+              :src="scope.row.avatar"
+            ></el-avatar>
+          </template>
+        </el-table-column>
+        <el-table-column prop="content" label="评论内容"> </el-table-column>
+        <el-table-column prop="nickName" label="昵称"> </el-table-column>
+        <el-table-column prop="email" label="邮箱"> </el-table-column>
+        <el-table-column prop="site" label="网址">
+          <template slot-scope="scope">
+            <a target="_blank" :href="scope.row.site">{{ scope.row.site }}</a>
+          </template>
+        </el-table-column>
+        <el-table-column prop="datetime" label="评论时间">
+          <template slot-scope="scope">
+            <span>{{ scope.row.datetime | formatTime }}</span>
           </template>
         </el-table-column>
       </el-table>
@@ -56,7 +84,7 @@
 </template>
 
 <script>
-import { getStatistics } from '@service/back/site/site'
+import { getComment } from '@service/back/article/article'
 
 export default {
   filters: {},
@@ -71,7 +99,7 @@ export default {
   },
   methods: {
     getList() {
-      getStatistics().then((res) => {
+      getComment().then((res) => {
         this.tableData = res.data.data
       })
     },

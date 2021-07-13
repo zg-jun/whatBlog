@@ -1,8 +1,15 @@
 const mongoose = require('mongoose')
 
 const statisticsSchema = new mongoose.Schema({
-  ip: String,
-  address: String,
+  ip: {
+    type: String,
+    required: true,
+  },
+  address: {
+    type: String,
+    required: true,
+    default: '未知',
+  },
   visits: {
     type: Number,
     default: 1,

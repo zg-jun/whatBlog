@@ -7,12 +7,15 @@ const multer = require('multer')
 const jwt = require('jsonwebtoken')
 // 登录校验中间件
 const authMiddleware = require('../middleware/auth')
+// 工具函数
+const { deepParse } = require('../utils/utils')
 // 导入模型
 const AdminUser = require('../models/adminUser')
 const Article = require('../models/article')
 const Classify = require('../models/classify')
 const Friends = require('../models/friends')
 const Statistics = require('../models/statistics')
+const Comment = require('../models/comment')
 
 // 不存在则创建文件
 const createFolder = function (folder) {
@@ -463,25 +466,32 @@ router.delete('/delFriends', authMiddleware(), function (req, res, next) {
 })
 
 // 统计列表
-router.get('/getStatistics', urlencodedParser, function (req, res, next) {
-  Statistics.find({}, null, { sort: { datetime: -1 } }, function (err, data) {
-    if (err)
-      return res.send({
-        code: -1,
-        msg: '操作失败',
+router.get(
+  '/getStatistics',
+  authMiddleware(),
+  urlencodedParser,
+  function (req, res, next) {
+    Statistics.find({}, null, { sort: { datetime: -1 } }, function (err, data) {
+      if (err)
+        return res.send({
+          code: -1,
+          msg: '操作失败',
+        })
+      res.send({
+        code: 0,
+        msg: '操作成功',
+        data,
       })
-    res.send({
-      code: 0,
-      msg: '操作成功',
-      data,
     })
-  })
-})
+  }
+)
 
 // 添加统计
 router.put('/addStatistics', urlencodedParser, function (req, res, next) {
   let body = req.body
   let { ip } = body
+
+  console.log(body)
 
   Statistics.findOne({ ip }, function (err, data) {
     if (err)
@@ -520,6 +530,45 @@ router.put('/addStatistics', urlencodedParser, function (req, res, next) {
         })
       })
     }
+  })
+})
+
+// 获取评论
+router.get('/getComment', urlencodedParser, function (req, res, next) {
+  let query = req.query
+  console.log(query)
+  Comment.find(query, null, { sort: { datetime: -1 } }, function (err, data) {
+    if (err)
+      return res.send({
+        code: -1,
+        msg: '操作失败',
+      })
+    // 递归评论
+    data = deepParse(
+      data.filter((item) => item.parentId === '0'),
+      data
+    )
+    res.send({
+      code: 0,
+      msg: '操作成功',
+      data,
+    })
+  })
+})
+
+// 添加评论
+router.post('/addComment', urlencodedParser, function (req, res, next) {
+  let body = req.body
+  Comment.insertMany(body, function (err) {
+    if (err)
+      return res.send({
+        code: -1,
+        msg: '操作失败',
+      })
+    res.send({
+      code: 0,
+      msg: '操作成功',
+    })
   })
 })
 
